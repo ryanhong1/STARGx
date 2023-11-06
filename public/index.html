@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="main.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body>
+  
+  
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script>
+      
+      
+      
+      const firebaseConfig = {
+          apiKey: "AIzaSyDb5ddZRnLOTb5NRXBEsceaQmBT5MrHrKs",
+          authDomain: "practice-a5954.firebaseapp.com",
+          projectId: "practice-a5954",
+          storageBucket: "practice-a5954.appspot.com",
+          messagingSenderId: "747318421876",
+          appId: "1:747318421876:web:62dea3c04c562948646421",
+          measurementId: "G-W33YVF9MEK"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig) 
+  </script>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><b>STARG</b></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link active" aria-current="page" href="#">Home</a>
+        <a class="nav-link" href="/upload.html">Upload</a>
+        <a class="nav-link" href="/login.html">login</a>
+        <a class="nav-link" href="/qrcode.html">QR</a>
+        <a class="nav-link disabled" aria-disabled="true">Beta</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="container mt-3">
+</div>
+
+
+  <script>
+    const db = firebase.firestore();
+    db.collection('product').get().then((result) => {
+        result.forEach((doc) => {
+            console.log(doc.data());
+            var template = `
+                <div class="product">
+                    <div class="thumbnail" style="width:200px; height:200px; background-image: url(${doc.data().image})"></div>
+                    <div class="flex-grow-1 p-4">
+                        <h5 class="title">${doc.data().name}</h5>
+                        <p class="date">${doc.data().time}</p>
+                        <p class="wave">${doc.data().wave}</p>
+                        
+                    </div>
+                </div>`;
+            $('.container').append(template)
+        })
+    })
+</script>
+
+  
+</body>
+</html>

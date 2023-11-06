@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="main.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body>
+  
+  
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script>
+      
+      
+      
+      const firebaseConfig = {
+          apiKey: "AIzaSyDb5ddZRnLOTb5NRXBEsceaQmBT5MrHrKs",
+          authDomain: "practice-a5954.firebaseapp.com",
+          projectId: "practice-a5954",
+          storageBucket: "practice-a5954.appspot.com",
+          messagingSenderId: "747318421876",
+          appId: "1:747318421876:web:62dea3c04c562948646421",
+          measurementId: "G-W33YVF9MEK"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig) 
+  </script>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">STARG</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link active" aria-current="page" href="/index.html">Home</a>
+        <a class="nav-link" href="/upload.html">Upload</a>
+        <a class="nav-link" href="#">login</a>
+        <a class="nav-link" href="/qrcode.html">QR</a>
+        <a class="nav-link disabled" aria-disabled="true">Beta</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="container mt-3">
+</div>
+<div class="container mt-3">
+    <div class="mb-3">
+      <input type="text" class="form-control" placeholder="name" id="name-new">
+    </div>
+    <div class="mb-3">
+      <input type="email" class="form-control" placeholder="email" id="email-new">
+    </div>
+    <div class="mb-3">
+      <input type="password" class="form-control" placeholder="pw" id="pw-new">
+    </div>
+    <button type="submit" class="btn btn-primary" id="register">가입하기</button>
+ </div>
+
+<script>
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+
+    $('#register').click(()=>{
+
+        var email = $('#email-new').val();
+        var password = $('#pw-new').val();
+
+
+
+        firebase.auth().createUserWithEmailAndPassword(email,password).then((result)=>{
+            console.log(result)
+            console.log(result.user)
+            window.location.href="/index.html";
+        }).catch(()=>{
+            console.error('실패사유는', error);
+        })
+    })
+    
+</script>
+
+  
+</body>
+</html>
