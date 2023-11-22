@@ -72,14 +72,12 @@
     </div>
     <div id="text"></div>
     <div id="length"></div>
+    <div id="i"></div>
     
 </div>
 
-
-
-
-
 <script>
+    
     //timestamp-> date
     function dateFormat(date) {
           let month = date.getMonth() + 1;
@@ -130,6 +128,11 @@
         // Combine the values of 'name', 'wave', and 'content' into a single string
         var text = $('#name').val() + $('#wave').val() + $('#content').val();
 
+        //const buffer = Buffer.from(text, 'utf8'); // Assuming UTF-8 encoding
+
+        // Get the size of the buffer's content
+        //const sizeInBytes = Buffer.byteLength(buffer);
+        //console.log(`Size of the buffer's content: ${sizeInBytes} bytes`);
         $('#length').text(text.length);
 
         // Generate QR code
@@ -147,7 +150,9 @@
         // Create a Data URL for the QR code image
         var qrCodeImage = document.getElementById('qrcode').getElementsByTagName('img')[0].src;
         var storageRef = storage.ref();
-        var filePath = 'qr/' + i + '.png';
+
+        var uniqueId = Date.now() + '_' + Math.floor(Math.random() * 1000);
+        var filePath = 'qr/' + uniqueId + '.png';
 
         var uploadTask = storageRef.child(filePath).putString(qrCodeImage, 'data_url');
 
@@ -186,6 +191,7 @@
                         .then((result) => {
                             console.log(result);
                             i = i + 1;
+                            $('#i').text(i);
                         })
                         .catch((err) => {
                             console.log(err);
@@ -195,20 +201,21 @@
             }
         );
     });
-    
-  });
-  $('#downloadQR').click(function() {
+    $('#downloadQR').click(function() {
       // Get the QR code image URL
       var qrCodeImageURL = document.getElementById('qrcode').getElementsByTagName('img')[0].src;
       
       // Create a temporary anchor element
       var downloadLink = document.createElement('a');
       downloadLink.href = qrCodeImageURL;
-      downloadLink.download = 'qrcode/' + i + '.png'; // Specify the filename
+      downloadLink.download = filePath // Specify the filename
       
       // Simulate a click to trigger the download
       downloadLink.click();
+    });
+    
   });
+  
 </script>
  
  

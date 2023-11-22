@@ -58,22 +58,40 @@
 
   <script>
     const db = firebase.firestore();
-    db.collection('product').get().then((result) => {
-        result.forEach((doc) => {
-            console.log(doc.data());
-            var template = `
-                <div class="product">
-                    <div class="thumbnail" style="width:200px; height:200px; background-image: url(${doc.data().image})"></div>
-                    <div class="flex-grow-1 p-4">
-                        <h5 class="title">${doc.data().name}</h5>
-                        <p class="date">${doc.data().time}</p>
-                        <p class="wave">${doc.data().wave}</p>
-                        
-                    </div>
-                </div>`;
-            $('.container').append(template)
-        })
-    })
+
+    function createProductTemplate(data) {
+      return `
+        <div class="product">
+          <div class="thumbnail" style="width:200px; height:200px; background-image: url(${data.image})" data-image="${data.image}"></div>
+          <div class="flex-grow-1 p-4">
+            <h5 class="title">${data.name}</h5>
+            <p class="date">${data.time}</p>
+            <p class="wave">${data.wave}</p>
+          </div>
+        </div>`;
+    }
+
+    // Function to handle the thumbnail click and open the image in a new tab
+    function handleThumbnailClick(event) {
+      const thumbnail = $(event.currentTarget);
+      const imageSrc = thumbnail.attr('data-image');
+      window.open(imageSrc, '_parent');
+    }
+
+    db.collection('product').orderBy('time', 'asc').get().then((result) => {
+      result.forEach((doc) => {
+        const template = createProductTemplate(doc.data());
+        $('.container').prepend(template);
+      });
+
+      // Add event listener to each thumbnail
+      const thumbnails = document.querySelectorAll('.thumbnail');
+      thumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', handleThumbnailClick);
+      });
+    });
+    
+
 </script>
 
   
